@@ -4,7 +4,6 @@ node('master')
     git 'https://github.com/lazycoder95/example-tomcat-war'
 }
   stage('compile'){
-    def mvnhome = tool name : 'mvn3',type : 'maven'
     sh "mvn package"
   }  
   stage('Slack Notification'){
