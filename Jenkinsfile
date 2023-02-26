@@ -5,7 +5,7 @@ node('master')
 }
   stage('compile'){
     def mvnhome = tool name : 'mvn3',type : 'maven'
-    sh '$mvnhome/bin/mvn package'
+    sh "$mvnhome/bin/mvn package"
   }  
   stage('Slack Notification'){
     slackSend baseUrl: 'https://hooks.slack.com/services/', botUser: true, channel: 'jenkins', color: 'good', message: 'hi', teamDomain: 'teamdemo-talk', tokenCredentialId: 'slackhookjen'
