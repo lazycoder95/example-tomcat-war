@@ -7,7 +7,19 @@ node('master')
     def mvnhome = tool name: 'mvn3', type: 'maven'
     sh "${mvnhome}/bin/mvn package"
   }  
-  stage('Slack Notification'){
-    slackSend baseUrl: 'https://hooks.slack.com/services/', botUser: true, channel: 'jenkins', color: 'good', message: 'hi', teamDomain: 'teamdemo-talk', tokenCredentialId: 'slackhookjen'
+  stage('mail'){
+    mail bcc: '', body: 'The job is currently processed.', cc: '', from: '', replyTo: '', subject: 'jenkins job status', to: 'devas.5991@gmail.com'
+  }
+  stage('copy to salve'){
+    sshagent(['slavemachine']) {
+    sh 'scp -o StrictHostKeyChecking=no target/*.war ubuntu@3.237.188.247:/home/ubuntu/apache-tomcat-9.0.72/webapps/'
+    }
+  }
+}
+
+node('slave')
+{
+  stage('test'){
+    sh 'pwd > new.txt'
   }
 }
